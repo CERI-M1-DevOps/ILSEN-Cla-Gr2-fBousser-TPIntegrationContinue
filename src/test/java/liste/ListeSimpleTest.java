@@ -213,6 +213,16 @@ public class ListeSimpleTest {
     }
 
     @Test
+    void echangerLeMemeNoeud() {
+        listeATester.ajout(3);
+        listeATester.ajout(2);
+        listeATester.ajout(1);
+        Noeud r = listeATester.tete;
+        listeATester.echanger(r, r);
+        assertEquals("ListeSimple(Noeud(1), Noeud(2), Noeud(3))", listeATester.toString());
+    }
+
+    @Test
     void echanger2NoeudsQuelconques() {
         listeATester.ajout(5);
         listeATester.ajout(4);
