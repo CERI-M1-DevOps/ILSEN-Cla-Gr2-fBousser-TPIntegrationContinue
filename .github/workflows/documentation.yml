@@ -3,6 +3,7 @@ name: Génération et déploiement de la documentation
   pull_request:
     types: [closed]
     branches: [ main ]
+  workflow_dispatch: {}
 
 permissions:
   contents: write
@@ -21,8 +22,11 @@ jobs:
           distribution: 'corretto'
       - name: Génération de la Javadoc
         run: mvn -B javadoc:javadoc
+      - name: Repérage du dossier généré
+        id: javadoc-dir
+        run: echo "path=$(find target -type d -name apidocs | head -n 1)" >> "$GITHUB_OUTPUT"
       - name: Déploiement sur GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./target/site/apidocs
+          publish_dir: ${{ steps.javadoc-dir.outputs.path }}
